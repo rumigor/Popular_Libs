@@ -2,58 +2,38 @@ package com.example.mvp_example
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.Button
-import com.example.mvp_example.R.layout.activity_main
 import com.example.mvp_example.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    private var vb: ActivityMainBinding? = null
-
-    val counters = mutableListOf(0, 0, 0)
+class MainActivity : AppCompatActivity(), MainView {
+    private val vb: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val presenter = Presenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vb = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(vb?.root)
-        vb?.btnCounter1?.setOnClickListener {
-            vb?.btnCounter1?.text = (++counters[0]).toString()
+        setContentView(vb.root)
+
+
+        vb.btnCounter1.setOnClickListener{
+            presenter.counterClickB1()
         }
-
-        vb?.btnCounter2?.setOnClickListener {
-            vb?.btnCounter2?.text = (++counters[1]).toString()
+        vb.btnCounter2.setOnClickListener{
+            presenter.counterClickB2()
         }
-
-        vb?.btnCounter3?.setOnClickListener {
-            vb?.btnCounter3?.text = (++counters[2]).toString()
+        vb.btnCounter3.setOnClickListener{
+            presenter.counterClickB3()
         }
-
-        initViews()
     }
 
-    fun initViews() {
-        vb?.btnCounter1?.text = counters[0].toString()
-        vb?.btnCounter2?.text = counters[1].toString()
-        vb?.btnCounter3?.text = counters[2].toString()
+    override fun setButtonText1(text: String) {
+        vb.btnCounter1.text = text
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putIntArray("counters", counters.toIntArray())
+    override fun setButtonText2(text: String) {
+        vb.btnCounter2.text = text
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState.putIntArray("counters", counters.toIntArray())
+    override fun setButtonText3(text: String) {
+        vb.btnCounter3.text = text
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val countersArray = savedInstanceState.getIntArray("counters")
-        countersArray?.toList()?.let {
-            counters.clear()
-            counters.addAll(it)
-        }
-        initViews()
-    }
 }
