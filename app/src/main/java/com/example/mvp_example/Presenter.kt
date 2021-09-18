@@ -1,19 +1,20 @@
 package com.example.mvp_example
 
-class Presenter(private val mainView: MainView) {
-    private val model = Model()
+import moxy.MvpPresenter
 
-    fun counterClickB1() {
+class Presenter(val model: Model): MvpPresenter<MainView>() {
+
+    fun counter1Click() {
         val nextValue = model.next(0)
-        mainView.setButtonText1(nextValue.toString())
+        viewState.setCounterText1(nextValue.toString())
     }
-    fun counterClickB2() {
+    fun counter2Click() {
         val nextValue = model.next(1)
-        mainView.setButtonText2(nextValue.toString())
+        viewState.setCounterText2(nextValue.toString())
     }
-    fun counterClickB3() {
+    fun counter3Click() {
         val nextValue = model.next(2)
-        mainView.setButtonText3(nextValue.toString())
+        viewState.setCounterText3(nextValue.toString())
     }
 
 }

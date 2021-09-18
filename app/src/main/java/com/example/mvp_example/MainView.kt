@@ -1,7 +1,12 @@
 package com.example.mvp_example
 
-interface MainView {
-    fun setButtonText1(text: String)
-    fun setButtonText2(text: String)
-    fun setButtonText3(text: String)
+import moxy.MvpView
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.StateStrategyType
+
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface MainView : MvpView {
+    fun setCounterText1(text: String)
+    fun setCounterText2(text: String)
+    fun setCounterText3(text: String)
 }
