@@ -1,41 +1,36 @@
 package com.example.mvp_example
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mvp_example.databinding.ActivityMainBinding
+import com.example.mvp_example.App
+import com.example.mvp_example.MainPresenter
+import com.example.mvp_example.MainView
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 
 class MainActivity : MvpAppCompatActivity(), MainView {
-    private val vb: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val presenter by moxyPresenter { Presenter(Model()) }
+
+    val navigator = AppNavigator(this, R.id.container)
+
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
+    private var vb: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(vb.root)
-
-
-        vb.btnCounter1.setOnClickListener{
-            presenter.counter1Click()
-        }
-        vb.btnCounter2.setOnClickListener{
-            presenter.counter2Click()
-        }
-        vb.btnCounter3.setOnClickListener{
-            presenter.counter3Click()
-        }
+        vb = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(vb?.root)
     }
 
-    override fun setCounterText1(text: String) {
-        vb.btnCounter1.text = text
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigatorHolder.setNavigator(navigator)
     }
 
-    override fun setCounterText2(text: String) {
-        vb.btnCounter2.text = text
-    }
-
-    override fun setCounterText3(text: String) {
-        vb.btnCounter3.text = text
+    override fun onPause() {
+        super.onPause()
+        App.instance.navigatorHolder.removeNavigator()
     }
 
 }
+
