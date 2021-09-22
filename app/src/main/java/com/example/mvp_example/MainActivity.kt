@@ -1,59 +1,36 @@
 package com.example.mvp_example
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.Button
-import com.example.mvp_example.R.layout.activity_main
 import com.example.mvp_example.databinding.ActivityMainBinding
+import com.example.mvp_example.App
+import com.example.mvp_example.MainPresenter
+import com.example.mvp_example.MainView
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MvpAppCompatActivity(), MainView {
+
+    val navigator = AppNavigator(this, R.id.container)
+
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
     private var vb: ActivityMainBinding? = null
-
-    val counters = mutableListOf(0, 0, 0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
-        vb?.btnCounter1?.setOnClickListener {
-            vb?.btnCounter1?.text = (++counters[0]).toString()
-        }
-
-        vb?.btnCounter2?.setOnClickListener {
-            vb?.btnCounter2?.text = (++counters[1]).toString()
-        }
-
-        vb?.btnCounter3?.setOnClickListener {
-            vb?.btnCounter3?.text = (++counters[2]).toString()
-        }
-
-        initViews()
     }
 
-    fun initViews() {
-        vb?.btnCounter1?.text = counters[0].toString()
-        vb?.btnCounter2?.text = counters[1].toString()
-        vb?.btnCounter3?.text = counters[2].toString()
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigatorHolder.setNavigator(navigator)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putIntArray("counters", counters.toIntArray())
+    override fun onPause() {
+        super.onPause()
+        App.instance.navigatorHolder.removeNavigator()
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState.putIntArray("counters", counters.toIntArray())
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val countersArray = savedInstanceState.getIntArray("counters")
-        countersArray?.toList()?.let {
-            counters.clear()
-            counters.addAll(it)
-        }
-        initViews()
-    }
 }
+
