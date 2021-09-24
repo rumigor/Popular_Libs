@@ -10,12 +10,7 @@ class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, Use
 
     interface Delegate {
 
-        /**
-         * Событие наступает при выборе
-         * пользователя из списка.
-         * @param user пользователь
-         */
-        fun onUserPicked(user: GitHubUser)
+          fun onUserPicked(user: GitHubUser)
 
     }
 

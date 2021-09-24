@@ -1,6 +1,7 @@
 package com.example.mvp_example.presentation.user
 
 
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.MvpAppCompatFragment
@@ -39,6 +40,10 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     override fun showUser(user: GitHubUser) {
         viewBinding.userLogin.text = user.login
+    }
+
+    override fun showError(e: Throwable) {
+        Toast.makeText(context, "Пользователь не найден!", Toast.LENGTH_SHORT).show()
     }
 
 }

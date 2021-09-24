@@ -2,6 +2,7 @@ package com.example.mvp_example.presentation.users
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mvp_example.App.Navigation.router
@@ -42,6 +43,10 @@ class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.D
 
     override fun showUsers(users: List<GitHubUser>) {
         usersAdapter.submitList(users)
+    }
+
+    override fun showError(error: Throwable) {
+        Toast.makeText(context,"Ошибка с получением списка пользователей", Toast.LENGTH_SHORT).show()
     }
 
     override fun onUserPicked(user: GitHubUser) =

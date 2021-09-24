@@ -1,5 +1,8 @@
 package com.example.mvp_example.repo
 
+import io.reactivex.rxjava3.core.Single
+import java.lang.RuntimeException
+
 class GitHubUserRepositoryImpl : GitHubUserRepository {
 
     private val users = listOf(
@@ -10,9 +13,13 @@ class GitHubUserRepositoryImpl : GitHubUserRepository {
         GitHubUser("login5"),
     )
 
-    override fun getUsers() =
-        users
+    override fun getUsers(): Single<List<GitHubUser>> =
+        Single.just(users)
 
-    override fun getUserByLogin(userId: String): GitHubUser? =
-        users.firstOrNull { user -> user.login == userId }
+
+    override fun getUserByLogin(userId: String): Single<GitHubUser> =
+        users.firstOrNull {user -> user.login.contentEquals(userId)}
+            ?.let{user -> Single.just(user)}
+            ?: Single.error(RuntimeException("Пользователь с ником $userId не найден!"))
+
 }
