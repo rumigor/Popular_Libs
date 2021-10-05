@@ -9,11 +9,13 @@ import com.example.mvp_example.App.Navigation.router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import com.example.mvp_example.arguments
-import com.example.mvp_example.repo.GitHubUser
-import com.example.mvp_example.repo.GitHubUserRepositoryFactory
+import com.example.mvp_example.data.user.GitHubUser
+import com.example.mvp_example.data.user.GitHubUserRepositoryFactory
 import com.example.mvp_example.databinding.ViewUsersBinding
 import com.example.mvp_example.presentation.users.adapter.UsersAdapter
 import com.example.mvp_example.R.layout.view_users
+import com.example.mvp_example.presentation.GitHubUserViewModel
+import com.example.mvp_example.scheduler.SchedulersFactory
 
 class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.Delegate {
 
@@ -28,7 +30,8 @@ class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.D
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
             userRepository = GitHubUserRepositoryFactory.create(),
-            router = router
+            router = router,
+            schedulers = SchedulersFactory.create()
         )
     }
 
@@ -41,17 +44,16 @@ class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.D
         viewBinding.users.adapter = usersAdapter
     }
 
-    override fun showUsers(users: List<GitHubUser>) {
+    override fun showUsers(users: List<GitHubUserViewModel>) {
         usersAdapter.submitList(users)
     }
 
     override fun showError(error: Throwable) {
-        Toast.makeText(context,"Ошибка с получением списка пользователей", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
     }
 
-    override fun onUserPicked(user: GitHubUser) =
+    override fun onUserPicked(user: GitHubUserViewModel) =
         presenter.displayUser(user)
-
 
 }
 
