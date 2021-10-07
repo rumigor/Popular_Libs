@@ -4,8 +4,6 @@ import com.example.mvp_example.data.user.datasource.CacheUserDataSource
 import com.example.mvp_example.data.user.datasource.UserDataSource
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.rxjava3.core.Single
-import java.lang.RuntimeException
 
 class GitHubUserRepositoryImpl(
     private val cloud: UserDataSource,
@@ -18,9 +16,10 @@ class GitHubUserRepositoryImpl(
             cloud.getUsers().flatMap(cache::retain).toObservable()
         )
 
-
     override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
         cache.getUserByLogin(userId)
-            .switchIfEmpty(cloud.getUserByLogin(userId))
+            .onErrorResumeNext(
+                cloud.getUserByLogin(userId)
+            )
 
 }

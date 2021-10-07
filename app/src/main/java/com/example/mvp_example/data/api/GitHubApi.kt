@@ -5,6 +5,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 
 interface GitHubApi {
@@ -14,5 +15,7 @@ interface GitHubApi {
 
     @GET("/users/{username}")
     fun getUserByLogin(@Path("username") login: String): Single<GitHubUser>
+
+
 
 }

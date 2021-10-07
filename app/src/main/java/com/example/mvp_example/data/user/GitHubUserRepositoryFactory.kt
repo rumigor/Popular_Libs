@@ -5,10 +5,13 @@ import com.example.mvp_example.data.user.datasource.UserDataSourceFactory
 
 object GitHubUserRepositoryFactory {
 
-    fun create(): GitHubUserRepository =
+    private val repository: GitHubUserRepository by lazy {
         GitHubUserRepositoryImpl(
             UserDataSourceFactory.create(),
             CacheUserDataSourceFactory.create()
         )
+    }
+
+    fun create(): GitHubUserRepository = repository
 
 }

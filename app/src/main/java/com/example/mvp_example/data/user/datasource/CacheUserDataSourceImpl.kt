@@ -1,29 +1,34 @@
 package com.example.mvp_example.data.user.datasource
 
+import com.example.mvp_example.data.storage.GitHubStorage
 import com.example.mvp_example.data.user.GitHubUser
 import io.reactivex.Maybe
 import io.reactivex.Single
 
-class CacheUserDataSourceImpl : CacheUserDataSource {
-
-    private val cache = mutableListOf<GitHubUser>()
+class CacheUserDataSourceImpl(private val gitHubStorage: GitHubStorage) : CacheUserDataSource {
 
     override fun getUsers(): Single<List<GitHubUser>> =
-        Single.just(cache)
+        gitHubStorage
+            .gitHubUserDao()
+            .fetchUsers()
 
     override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
-        cache.firstOrNull { user -> user.login.contentEquals(userId) }
-            ?.let { user -> Maybe.just(user) }
-            ?: Maybe.empty()
+        gitHubStorage
+            .gitHubUserDao()
+            .fetchUserByLogin(userId)
+            .toMaybe()
 
     override fun retain(users: List<GitHubUser>): Single<List<GitHubUser>> =
-        Single.fromCallable {
-            cache.clear()
-            cache.addAll(users)
-            cache
-        }
+        gitHubStorage
+            .gitHubUserDao()
+            .retain(users)
+            .andThen(getUsers())
 
     override fun retain(user: GitHubUser): Single<GitHubUser> =
-        Single.fromCallable { user }
+        gitHubStorage
+            .gitHubUserDao()
+            .retain(user)
+            .andThen(getUserByLogin(user.id))
+            .toSingle()
 
 }

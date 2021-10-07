@@ -8,6 +8,7 @@ import com.example.mvp_example.data.user.GitHubUserRepository
 import com.example.mvp_example.presentation.user.UserScreen
 import com.example.mvp_example.scheduler.Schedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 
 class UsersPresenter(
     private val userRepository: GitHubUserRepository,
@@ -18,7 +19,7 @@ class UsersPresenter(
     private val disposables = CompositeDisposable()
 
     override fun onFirstViewAttach() {
-        disposables.add(
+        disposables +=
             userRepository
                 .getUsers()
                 .observeOn(schedulers.background())
@@ -29,7 +30,6 @@ class UsersPresenter(
                     viewState::showUsers,
                     viewState::showError
                 )
-        )
     }
 
     fun displayUser(user: GitHubUserViewModel) {
