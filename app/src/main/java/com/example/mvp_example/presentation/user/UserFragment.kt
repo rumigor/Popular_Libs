@@ -8,13 +8,14 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import com.example.mvp_example.R.layout.view_user
 import com.example.mvp_example.arguments
-import com.example.mvp_example.repo.GitHubUser
-import com.example.mvp_example.repo.GitHubUserRepositoryFactory
+import com.example.mvp_example.data.user.GitHubUserRepositoryFactory
 import com.example.mvp_example.databinding.ViewUserBinding
+import com.example.mvp_example.presentation.GitHubUserViewModel
+import com.example.mvp_example.scheduler.SchedulersFactory
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
-    companion object {
+    companion object Factory {
 
         private const val ARG_USER_LOGIN = "arg_user_login"
 
@@ -32,18 +33,20 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create()
+            userRepository = GitHubUserRepositoryFactory.create(),
+            schedulers = SchedulersFactory.create()
         )
     }
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    override fun showUser(user: GitHubUser) {
+    override fun showUser(user: GitHubUserViewModel) {
+
         viewBinding.userLogin.text = user.login
     }
 
     override fun showError(e: Throwable) {
-        Toast.makeText(context, "Пользователь не найден!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), e.message, Toast.LENGTH_LONG).show()
     }
 
 }
