@@ -2,23 +2,13 @@ package com.example.mvp_example.presentation.repos
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.example.mvp_example.App
 import com.example.mvp_example.R
 import com.example.mvp_example.arguments
-import com.example.mvp_example.data.user.GitHubUserRepositoryFactory
 import com.example.mvp_example.databinding.ViewReposBinding
-import com.example.mvp_example.databinding.ViewUsersBinding
 import com.example.mvp_example.presentation.GitHubUserReposViewModel
-import com.example.mvp_example.presentation.GitHubUserViewModel
 import com.example.mvp_example.presentation.repos.adapter.RepoAdapter
-import com.example.mvp_example.presentation.user.UserFragment
-import com.example.mvp_example.presentation.users.UsersFragment
-import com.example.mvp_example.presentation.users.UsersPresenter
-import com.example.mvp_example.presentation.users.UsersView
-import com.example.mvp_example.presentation.users.adapter.UsersAdapter
 import com.example.mvp_example.scheduler.SchedulersFactory
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter

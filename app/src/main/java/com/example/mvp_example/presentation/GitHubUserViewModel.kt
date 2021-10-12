@@ -1,6 +1,6 @@
 package com.example.mvp_example.presentation
 
-import com.example.mvp_example.data.user.GitHubUser
+import com.example.mvp_example.data.model.GitHubUser
 
 data class GitHubUserViewModel(
     val login: String,

@@ -2,21 +2,21 @@ package com.example.mvp_example.data.di
 
 import android.content.Context
 import com.example.mvp_example.App
-import com.example.mvp_example.data.di.modules.GitHubApplicationModule
+import com.example.mvp_example.data.di.modules.GitHubApiModule
+import com.example.mvp_example.data.di.modules.GitHubStorageModule
+import com.example.mvp_example.data.di.modules.GitHubUsersModule
 import com.example.mvp_example.scheduler.Schedulers
+import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import com.github.terrakok.cicerone.NavigatorHolder as NavigatorHolder1
+import javax.inject.Singleton
 
-
-@Component(modules = [AndroidInjectionModule::class, GitHubApplicationModule::class])
-interface GitHubApplicationComponent : AndroidInjector<App> {
-
-    fun gitHubUsersComponent(): GitHubUsersComponent.Builder
-    fun gitHubUserComponent(): GitHubUserComponent.Builder
+@Singleton
+@Component(modules = [AndroidInjectionModule::class, GitHubUsersModule::class, GitHubApiModule::class, GitHubStorageModule::class])
+interface ApplicationComponent : AndroidInjector<App> {
 
     @Component.Builder
     interface Builder {
@@ -28,12 +28,12 @@ interface GitHubApplicationComponent : AndroidInjector<App> {
         fun withRouter(router: Router): Builder
 
         @BindsInstance
-        fun withNavigatorHolder(navigatorHolder: NavigatorHolder1): Builder
+        fun withNavigatorHolder(navigatorHolder: NavigatorHolder): Builder
 
         @BindsInstance
         fun withSchedulers(schedulers: Schedulers): Builder
 
-        fun build(): GitHubApplicationComponent
+        fun build(): ApplicationComponent
 
     }
 

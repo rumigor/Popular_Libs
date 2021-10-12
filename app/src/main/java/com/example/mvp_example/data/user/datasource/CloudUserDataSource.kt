@@ -1,17 +1,16 @@
 package com.example.mvp_example.data.user.datasource
 
 import com.example.mvp_example.data.api.GitHubApi
-import com.example.mvp_example.data.user.GitHubUser
+import com.example.mvp_example.data.model.GitHubUser
 import io.reactivex.Maybe
-import io.reactivex.Single
+import javax.inject.Inject
 
-class CloudUserDataSource(private val gitHubApi: GitHubApi) : UserDataSource {
+class CloudUserDataSource @Inject constructor(
+    private val gitHubApi: GitHubApi,
+) : UserDataSource {
 
-    override fun getUsers(): Single<List<GitHubUser>> =
-        gitHubApi.getUsers()
-
-    override fun getUserRepos(userId: String): Maybe<GitHubUser> =
-        gitHubApi.getUserRepos(userId)
+    override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
+        gitHubApi.getUserByLogin(userId)
             .toMaybe()
 
 }

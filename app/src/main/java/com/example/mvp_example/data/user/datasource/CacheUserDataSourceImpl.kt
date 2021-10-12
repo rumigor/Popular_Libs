@@ -1,33 +1,26 @@
 package com.example.mvp_example.data.user.datasource
 
+import com.example.mvp_example.data.di.InMemory
+import com.example.mvp_example.data.model.GitHubUser
 import com.example.mvp_example.data.storage.GitHubStorage
-import com.example.mvp_example.data.user.GitHubUser
 import io.reactivex.Maybe
 import io.reactivex.Single
+import javax.inject.Inject
 
-class CacheUserDataSourceImpl(private val gitHubStorage: GitHubStorage) : CacheUserDataSource {
+class CacheUserDataSourceImpl @Inject constructor(
+    @InMemory private val gitHubStorage: GitHubStorage
+) : CacheUserDataSource {
 
-    override fun getUsers(): Single<List<GitHubUser>> =
+    override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
         gitHubStorage
-            .getGitHubUserDao()
-            .fetchUsers()
-
-    override fun getUserRepos(userId: String): Maybe<GitHubUser> =
-        gitHubStorage
-            .getGitHubUserDao()
+            .gitHubUserDao()
             .fetchUserByLogin(userId)
             .toMaybe()
 
-    override fun retain(users: List<GitHubUser>): Single<List<GitHubUser>> =
-        gitHubStorage
-            .getGitHubUserDao()
-            .retain(users)
-            .andThen(getUsers())
-
     override fun retain(user: GitHubUser): Single<GitHubUser> =
         gitHubStorage
-            .getGitHubUserDao()
+            .gitHubUserDao()
             .retain(user)
-            .andThen(getUserRepos(user.id))
-            .toSingle()
+            .andThen(Single.just(user))
+
 }

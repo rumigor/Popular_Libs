@@ -1,13 +1,10 @@
 package com.example.mvp_example.data.user.datasource
 
-import com.example.mvp_example.data.user.GitHubUser
+import com.example.mvp_example.data.model.GitHubUser
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 interface UserDataSource {
 
-    fun getUsers(): Single<List<GitHubUser>>
-
-    fun getUserRepos(userId: String): Maybe<GitHubUser>
+    fun getUserByLogin(userId: String): Maybe<GitHubUser>
 
 }

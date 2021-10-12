@@ -1,36 +1,35 @@
 package com.example.mvp_example
 
-import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
+
+import com.example.mvp_example.data.di.GitHubApplicationComponent
 import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
+import dagger.internal.MapFactory.builder
 import io.reactivex.plugins.RxJavaPlugins
 
-class App : Application() {
+class App : DaggerApplication() {
 
-    object ContextHolder {
+    override fun applicationInjector(): AndroidInjector<App> =
+        gitHubApplicationComponent
 
-        lateinit var context: Context
+    val gitHubApplicationComponent: GitHubApplicationComponent by lazy {
+        DaggerAppl
+            .builder()
+            .withContext(applicationContext)
+            .apply {
+                val cicerone = Cicerone.create()
 
-    }
-
-    companion object Navigation {
-
-        private val cicerone : Cicerone<Router> by lazy {
-            Cicerone.create()
-        }
-
-        val navigatorHolder = cicerone.getNavigatorHolder()
-        val router = cicerone.router
-
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+                withRouter(cicerone.router)
+                withSchedulers(DefaultSchedulers())
+            }
+            .build()
     }
 
     override fun onCreate() {
         super.onCreate()
-        ContextHolder.context = applicationContext
         RxJavaPlugins.setErrorHandler {  }
     }
-
 
 }
