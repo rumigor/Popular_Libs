@@ -1,6 +1,7 @@
 package com.example.mvp_example.data.api
 
 import com.example.mvp_example.data.model.GitHubUser
+import com.example.mvp_example.data.model.Repository
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,5 +15,8 @@ interface GitHubApi {
 
     @GET("/users/{username}")
     fun getUserByLogin(@Path("username") login: String): Single<GitHubUser>
+
+    @GET("/users/{username}/repos")
+    fun getReposbyUserLogin(@Path ("username") login: String): Single<List<Repository>>
 
 }

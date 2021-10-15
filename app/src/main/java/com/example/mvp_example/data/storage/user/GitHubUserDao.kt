@@ -1,11 +1,9 @@
 package com.example.mvp_example.data.storage.user
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.Update
 import com.example.mvp_example.data.model.GitHubUser
+import com.example.mvp_example.data.model.Repository
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -18,6 +16,10 @@ interface GitHubUserDao {
 
     @Query("SELECT * FROM github_user WHERE login LIKE :login LIMIT 1")
     fun fetchUserByLogin(login: String): Single<GitHubUser>
+
+    @Query("SELECT * FROM github_repository")
+    fun fetchRepos(): Single<List<Repository>>
+
 
     @Insert(onConflict = REPLACE)
     fun retain(users: List<GitHubUser>): Completable
