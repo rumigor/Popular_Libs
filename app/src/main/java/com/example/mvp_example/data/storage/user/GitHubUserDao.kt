@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.example.mvp_example.data.user.GitHubUser
+import com.example.mvp_example.data.model.GitHubUser
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

@@ -1,18 +1,19 @@
 package com.example.mvp_example.data.di
 
-import android.content.Context
 import com.example.mvp_example.App
-import com.example.mvp_example.data.di.modules.GitHubApplicationModule
 import com.example.mvp_example.scheduler.Schedulers
+import android.content.Context
+import com.example.mvp_example.data.di.modules.*
+import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import com.github.terrakok.cicerone.NavigatorHolder as NavigatorHolder1
 
 
-@Component(modules = [AndroidInjectionModule::class, GitHubApplicationModule::class])
+@Component(modules = [AndroidInjectionModule::class, GitHubApplicationModule::class, GitHubApiModule::class, GitHubStorageModule::class, GitHubUsersModule::class,
+GitHubUserRepositoryModule::class, GitHubUsersRepositoryModule::class])
 interface GitHubApplicationComponent : AndroidInjector<App> {
 
     fun gitHubUsersComponent(): GitHubUsersComponent.Builder
@@ -28,7 +29,7 @@ interface GitHubApplicationComponent : AndroidInjector<App> {
         fun withRouter(router: Router): Builder
 
         @BindsInstance
-        fun withNavigatorHolder(navigatorHolder: NavigatorHolder1): Builder
+        fun withNavigatorHolder(navigatorHolder: NavigatorHolder): Builder
 
         @BindsInstance
         fun withSchedulers(schedulers: Schedulers): Builder

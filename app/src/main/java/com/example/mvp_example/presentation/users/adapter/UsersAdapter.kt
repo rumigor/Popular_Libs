@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.mvp_example.R.layout.view_user
-import com.example.mvp_example.data.user.GitHubUser
 import com.example.mvp_example.presentation.GitHubUserViewModel
 
 class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {

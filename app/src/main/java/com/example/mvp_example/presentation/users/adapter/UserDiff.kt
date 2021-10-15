@@ -2,7 +2,6 @@ package com.example.mvp_example.presentation.users.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
-import com.example.mvp_example.data.user.GitHubUser
 import com.example.mvp_example.presentation.GitHubUserViewModel
 
 object UserDiff : DiffUtil.ItemCallback<GitHubUserViewModel>() {

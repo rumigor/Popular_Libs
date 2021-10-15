@@ -19,7 +19,7 @@ class UserPresenter(
     override fun onFirstViewAttach() {
         disposables +=
             userRepository
-                .getUserRepos(userLogin)
+                .getUserByLogin(userLogin)
                 .map(GitHubUserViewModel.Mapper::map)
                 .observeOn(schedulers.main())
                 .subscribeOn(schedulers.background())
