@@ -17,6 +17,6 @@ interface GitHubApi {
     fun getUserByLogin(@Path("username") login: String): Single<GitHubUser>
 
     @GET("/users/{username}/repos")
-    fun getReposbyUserLogin(@Path ("username") login: String): Single<List<Repository>>
+    fun getReposbyUserLogin(@Path("username") login: String): Single<List<Repository>>
 
 }

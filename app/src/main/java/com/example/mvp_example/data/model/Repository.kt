@@ -13,9 +13,10 @@ data class Repository(
     @ColumnInfo(name = "name")
     @SerializedName("name")
     val name: String,
-//    @ColumnInfo(name = "avatar")
-//    @SerializedName("avatar_url")
-//    val avatar: String,
-//    @ColumnInfo(name = "migrate")
-//    val migrate: String?,
+    @ColumnInfo(name = "forks")
+    @SerializedName("forks")
+    val forks: Int,
+    @ColumnInfo(name = "watchers")
+    @SerializedName("watchers")
+    val watchers: Int
 )

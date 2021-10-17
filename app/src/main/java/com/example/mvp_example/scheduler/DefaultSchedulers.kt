@@ -1,6 +1,5 @@
 package com.example.mvp_example.scheduler
 
-import com.example.mvp_example.scheduler.Schedulers
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 

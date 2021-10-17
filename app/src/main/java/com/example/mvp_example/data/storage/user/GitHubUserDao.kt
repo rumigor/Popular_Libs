@@ -22,6 +22,12 @@ interface GitHubUserDao {
 
 
     @Insert(onConflict = REPLACE)
+    fun retainRepos(repos: List<Repository>): Completable
+
+    @Update(onConflict = REPLACE)
+    fun retainRepos(repository: Repository): Completable
+
+    @Insert(onConflict = REPLACE)
     fun retain(users: List<GitHubUser>): Completable
 
     @Update(onConflict = REPLACE)

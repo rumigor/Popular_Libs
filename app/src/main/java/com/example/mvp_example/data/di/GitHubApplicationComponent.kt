@@ -12,12 +12,15 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 
 
-@Component(modules = [AndroidInjectionModule::class, GitHubApplicationModule::class, GitHubApiModule::class, GitHubStorageModule::class, GitHubUsersModule::class,
-GitHubUserRepositoryModule::class, GitHubUsersRepositoryModule::class])
+@Component(
+    modules = [AndroidInjectionModule::class, GitHubApplicationModule::class, GitHubApiModule::class, GitHubStorageModule::class, GitHubUsersModule::class,
+        GitHubUserRepositoryModule::class, GitHubUsersRepositoryModule::class, ReposModule::class, ReposRepositoryModule::class]
+)
 interface GitHubApplicationComponent : AndroidInjector<App> {
 
     fun gitHubUsersComponent(): GitHubUsersComponent.Builder
     fun gitHubUserComponent(): GitHubUserComponent.Builder
+    fun gitReposComponent(): ReposComponent.Builder
 
     @Component.Builder
     interface Builder {

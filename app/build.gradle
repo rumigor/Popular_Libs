@@ -33,7 +33,7 @@ android {
             // который можно сделать по ссылке:
             // https://github.com/settings/tokens
             buildConfigField('String', 'GITHUB_USER_NAME', "\"rumigor\"")
-            buildConfigField('String', 'GITHUB_USER_PASSWORD', "\"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\"")
+            buildConfigField('String', 'GITHUB_USER_PASSWORD', "\"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\"")
         }
         release {
             minifyEnabled false

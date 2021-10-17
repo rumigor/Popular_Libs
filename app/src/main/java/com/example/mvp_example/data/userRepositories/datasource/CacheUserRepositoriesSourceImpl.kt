@@ -7,10 +7,15 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CacheUserRepositoriesSourceImpl  @Inject constructor(
+class CacheUserRepositoriesSourceImpl @Inject constructor(
     @InMemory private val gitHubStorage: GitHubStorage
-    ): CacheUserRepositoriesSource
-{
+) : CacheUserRepositoriesSource {
+    override fun retainRepos(userId: String, repos: List<Repository>): Single<List<Repository>> =
+        gitHubStorage
+            .gitHubUserDao()
+            .retainRepos(repos)
+            .andThen(getReposbyUserLogin(userId).firstOrError())
+
 
     override fun getReposbyUserLogin(userId: String): Observable<List<Repository>> =
         gitHubStorage

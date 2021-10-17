@@ -1,16 +1,21 @@
 package com.example.mvp_example.presentation
 
-import com.example.mvp_example.data.user.GitHubUserRepo
+import com.example.mvp_example.data.model.Repository
+
 
 data class GitHubUserReposViewModel(
-    val name: String
+    val name: String,
+    val forks: Int,
+    val watchers: Int
 ) {
 
     object Mapper {
 
-        fun map(repos: GitHubUserRepo) =
+        fun map(repository: Repository) =
             GitHubUserReposViewModel(
-                repos.name
+                repository.name,
+                repository.forks,
+                repository.watchers
             )
 
     }

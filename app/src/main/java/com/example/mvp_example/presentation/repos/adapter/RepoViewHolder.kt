@@ -4,19 +4,19 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mvp_example.click
-import com.example.mvp_example.databinding.ViewUserBinding
+import com.example.mvp_example.databinding.ViewRepositoryBinding
 import com.example.mvp_example.presentation.GitHubUserReposViewModel
-import com.example.mvp_example.presentation.GitHubUserViewModel
-import com.example.mvp_example.presentation.users.adapter.UsersAdapter
-import com.example.mvp_example.setStartDrawableCircleImageFromUri
+
 
 class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    private val viewBinding: ViewUserBinding by viewBinding()
+    private val viewBinding: ViewRepositoryBinding by viewBinding()
 
-    fun bind(user: GitHubUserReposViewModel) {
+    fun bind(repository: GitHubUserReposViewModel, delegate: RepoAdapter.Delegate?) {
         with(viewBinding) {
-            userLogin.text = user.name
+            repoName.text = repository.name
+
+            root.click { delegate?.onRepositoryPicked(repository) }
         }
     }
 }

@@ -2,6 +2,9 @@ package com.example.mvp_example.presentation.user
 
 
 import android.content.Context
+import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,9 +19,10 @@ import com.example.mvp_example.databinding.ViewUserBinding
 import com.example.mvp_example.presentation.GitHubUserViewModel
 import com.example.mvp_example.scheduler.Schedulers
 import com.example.mvp_example.setStartDrawableCircleImageFromUri
+import com.github.terrakok.cicerone.Router
 import javax.inject.Inject
 
-class UserFragment: MvpAppCompatFragment(view_user), UserView {
+class UserFragment : MvpAppCompatFragment(view_user), UserView {
 
     companion object Factory {
 
@@ -40,6 +44,9 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
     @Inject
     lateinit var gitHubUserRepository: GitHubUserRepository
 
+    @Inject
+    lateinit var router: Router
+
     private var gitHubUserComponent: GitHubUserComponent? = null
 
     override fun onAttach(context: Context) {
@@ -58,7 +65,8 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
         UserPresenter(
             userLogin = userLogin,
             userRepository = gitHubUserRepository,
-            schedulers = schedulers
+            schedulers = schedulers,
+            router = router
         )
     }
 
@@ -76,6 +84,13 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
     override fun onDestroy() {
         super.onDestroy()
         gitHubUserComponent = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewBinding.userLogin.setOnClickListener {
+            presenter.displayRepositories((it as TextView).text.toString())
+        }
     }
 
 }

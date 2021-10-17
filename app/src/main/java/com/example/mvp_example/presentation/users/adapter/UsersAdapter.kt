@@ -6,15 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.mvp_example.R.layout.view_user
 import com.example.mvp_example.presentation.GitHubUserViewModel
 
-class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {
+class UsersAdapter(private val delegate: Delegate?) :
+    ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {
 
     interface Delegate {
 
-        /**
-         * Событие наступает при выборе
-         * пользователя из списка.
-         * @param user пользователь
-         */
         fun onUserPicked(user: GitHubUserViewModel)
 
     }

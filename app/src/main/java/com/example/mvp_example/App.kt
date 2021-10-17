@@ -7,14 +7,12 @@ import com.example.mvp_example.scheduler.DefaultSchedulers
 import com.github.terrakok.cicerone.Cicerone
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
-import dagger.internal.MapFactory.builder
-import io.reactivex.plugins.RxJavaPlugins
 
 class App : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<App> = gitHubApplicationComponent
 
-    val gitHubApplicationComponent: GitHubApplicationComponent by lazy{
+    val gitHubApplicationComponent: GitHubApplicationComponent by lazy {
         DaggerGitHubApplicationComponent
             .builder()
             .withContext(applicationContext)

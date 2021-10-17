@@ -7,3 +7,6 @@ annotation class GitHubUsers
 
 @Scope
 annotation class GitHubUser
+
+@Scope
+annotation class Repos

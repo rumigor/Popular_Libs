@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CloudUserRepositoriesSource @Inject constructor(
     private val gitHubApi: GitHubApi
-) : UserRepositoriesDataSource{
+) : UserRepositoriesDataSource {
     override fun getReposbyUserLogin(userId: String): Observable<List<Repository>> =
         gitHubApi
             .getReposbyUserLogin(userId)
