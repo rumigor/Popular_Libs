@@ -1,19 +1,28 @@
 package com.example.mvp_example
 
-import android.app.Application
+
+import com.example.mvp_example.data.di.DaggerGitHubApplicationComponent
+import com.example.mvp_example.data.di.GitHubApplicationComponent
+import com.example.mvp_example.scheduler.DefaultSchedulers
 import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 
-class App : Application() {
-    companion object Navigation {
+class App : DaggerApplication() {
 
-        private val cicerone: Cicerone<Router> by lazy {
-            Cicerone.create()
-        }
+    override fun applicationInjector(): AndroidInjector<App> = gitHubApplicationComponent
 
-        val navigatorHolder = cicerone.getNavigatorHolder()
-        val router = cicerone.router
-
+    val gitHubApplicationComponent: GitHubApplicationComponent by lazy {
+        DaggerGitHubApplicationComponent
+            .builder()
+            .withContext(applicationContext)
+            .apply {
+                val cicerone = Cicerone.create()
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+                withRouter(cicerone.router)
+                withSchedulers(DefaultSchedulers())
+            }
+            .build()
     }
 
 }

@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.mvp_example.R.layout.view_user
-import com.example.mvp_example.repo.GitHubUser
+import com.example.mvp_example.presentation.GitHubUserViewModel
 
-class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, UserViewHolder>(UserDiff) {
+class UsersAdapter(private val delegate: Delegate?) :
+    ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {
 
     interface Delegate {
 
-          fun onUserPicked(user: GitHubUser)
+        fun onUserPicked(user: GitHubUserViewModel)
 
     }
 
